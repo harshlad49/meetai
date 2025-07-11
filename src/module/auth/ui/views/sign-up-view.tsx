@@ -206,7 +206,7 @@ const router = useRouter();
           </Form>
 
          
-          <div className="relative hidden flex-col items-center justify-center gap-y-4 bg-radial from-green-700 to-green-900 md:flex">
+          <div className="relative hidden flex-col items-center justify-center gap-y-4 bg-radial from-sidebar-accent to-sidebar md:flex">
             <img
               src="/logo.svg"
               alt="Logo"
