@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   email: z.string().email(),
@@ -29,7 +30,7 @@ path: ["confirmPassword"],
 });
  
 export const SignUpView = () => {
- const router = useRouter();
+const router = useRouter(); 
  const [pending , setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -50,19 +51,41 @@ export const SignUpView = () => {
     name: data.name,
     email: data.email,
     password: data.password,
+    callbackURL: "/",
   },
 {
    onSuccess: () => {
     setPending(false);
-     router.push("/sign-up");
+     router.push("/");
    },
    onError: ({error}) => {
      setError(error.message );
+     setPending(false);
    }
  }
  
 );
 }
+ const onSocial = async (provider: "github" | "google") => {
+    setError(null);
+    setPending(true);
+    authClient.signIn.social(
+      {
+        provider: provider,
+        callbackURL: "/",
+      },
+      {
+        onSuccess: () => {
+          setPending(false);
+        
+        },
+        onError: ({ error }) => {
+          setError(error.message);
+          setPending(false);
+        }
+      }
+    );
+  }
   return (
     <div className="flex flex-col gap-6">
       <Card className="overflow-hidden p-0">
@@ -153,15 +176,19 @@ export const SignUpView = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <Button 
+                  <Button
+                  onClick={
+                      () => onSocial("google")}
                    disabled={pending}
                   className="w-full" variant="outline">
-                    Google
+                    <FaGoogle/>
                   </Button>
                   <Button 
+                  onClick={
+                      () => onSocial("github" )}
                    disabled={pending}
                   className="w-full" variant="outline">
-                    Github
+                   <FaGithub/>
                   </Button>
                 </div>
 

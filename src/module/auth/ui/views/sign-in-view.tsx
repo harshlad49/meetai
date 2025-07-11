@@ -19,14 +19,15 @@ import { useForm } from "react-hook-form";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 const formSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1, { message: "Password is required" }),
 });
 
 export const SignInView = () => {
- const router = useRouter();
- const [pending , setPending] = useState(false);
+ const router = useRouter(); 
+  const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -36,26 +37,47 @@ export const SignInView = () => {
       password: "",
     },
   });
- const onSubmit = async (data: z.infer<typeof formSchema>) => {
-  setError(null);
-  setPending(true);
-  authClient.signIn.email(
-    {
-    email: data.email,
-    password: data.password,
-  },
-{
-   onSuccess: () => {
-    setPending(false);
-     router.push("/");
-   },
-   onError: ({error}) => {
-     setError(error.message );
-   }
- }
- 
-);
-}
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setError(null);
+    setPending(true);
+    authClient.signIn.email(
+      {
+        email: data.email,
+        password: data.password,
+        callbackURL: "/",
+      },
+      {
+        onSuccess: () => {
+          setPending(false);
+           router.push("/");
+        },
+        onError: ({ error }) => {
+          setError(error.message);
+          setPending(false);
+        }
+      }
+    );
+  }
+    const onSocial = async (provider: "github" | "google") => {
+    setError(null);
+    setPending(true);
+    authClient.signIn.social(
+      {
+        provider: provider,
+        callbackURL: "/"
+      },
+      {
+        onSuccess: () => {
+          setPending(false);
+         
+        },
+        onError: ({ error }) => {
+          setError(error.message);
+          setPending(false);
+        }
+      }
+    );
+  }
   return (
     <div className="flex flex-col gap-6">
       <Card className="overflow-hidden p-0">
@@ -105,9 +127,9 @@ export const SignInView = () => {
                   </Alert>
                 )}
 
-                <Button 
-                disabled={pending}
-                className="w-full" type="submit">
+                <Button
+                  disabled={pending}
+                  className="w-full" type="submit">
                   Sign In
                 </Button>
 
@@ -118,15 +140,19 @@ export const SignInView = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <Button 
-                   disabled={pending}
-                  className="w-full" variant="outline">
-                    Google
+                  <Button
+                    onClick={
+                      () => onSocial("google")}
+                    disabled={pending}
+                    className="w-full" variant="outline">
+                   <FaGoogle/>
                   </Button>
-                  <Button 
-                   disabled={pending}
-                  className="w-full" variant="outline">
-                    Github
+                  <Button
+                    disabled={pending}
+                    onClick={
+                      () => onSocial("github")}
+                    className="w-full" variant="outline">
+                    <FaGithub/>
                   </Button>
                 </div>
 
@@ -143,7 +169,7 @@ export const SignInView = () => {
             </form>
           </Form>
 
-         
+
           <div className="relative hidden flex-col items-center justify-center gap-y-4 bg-radial from-green-700 to-green-900 md:flex">
             <img
               src="/logo.svg"
