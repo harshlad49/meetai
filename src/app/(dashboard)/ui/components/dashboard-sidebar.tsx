@@ -15,7 +15,7 @@ import {
 }
 from "@/components/ui/sidebar";
 import { BotIcon, VideoIcon, StarIcon } from "lucide-react";
-import { Separator } from "@radix-ui/react-context-menu";
+import { Separator } from "@/components/ui/separator";
 import { usePathname } from "next/navigation";
 import { DashboardUserButton } from "./dashboard-user-button";
 
