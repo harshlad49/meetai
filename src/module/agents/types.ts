@@ -1,4 +1,4 @@
 import { inferRouterOutputs } from '@trpc/server';
-import type { AppRouter } from './routers/_app';
+import type { AppRouter } from '@/trpc/routers/_app';
 
-type AgentGetOne = inferRouterOutputs<AppRouter>["agents"]["getOne"];
+export type AgentGetOne = inferRouterOutputs<AppRouter>["agents"]["getOne"];
