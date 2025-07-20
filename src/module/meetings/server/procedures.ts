@@ -1,11 +1,11 @@
 import { db } from "@/db";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
-import {  meetings } from "@/db/schema";
+import {  agents, meetings } from "@/db/schema";
 // import { TRPCError } from "@trpc/server";
 import { DEFAULT_PAGE,DEFAULT_PAGE_SIZE,MAX_PAGE_SIZE, MIN_PAGE_SIZE } from "@/constants";
 
 import { z } from "zod";
-import { and,count, desc, eq, getTableColumns, ilike} from "drizzle-orm";
+import { and,count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { meetingsInsertSchema, meetingsUpdateSchema } from "./schemas";
 
@@ -71,9 +71,12 @@ getOne: protectedProcedure
     const data = await db
      .select({
       
-        ...getTableColumns(meetings)
+        ...getTableColumns(meetings),
+        agent: agents,
+        duration: sql<number>`EXTRACT(EPOCH FROM (ended_at - started_at))`.as("duration"),
       })
      .from(meetings)
+     .innerJoin(agents, eq(meetings.agentId, agents.id))
      .where(
       and(
         eq(meetings.userId, ctx.auth.user.id),search ? ilike(meetings.name, `%${search}%`) : undefined
@@ -84,7 +87,8 @@ getOne: protectedProcedure
      .offset((page - 1) * pageSize)
      const [total] = await db.select({count: count()})
      .from(meetings)
-     .where(
+     .innerJoin(agents, eq(meetings.agentId, agents.id))
+     .where( 
       and(
         eq(meetings.userId, ctx.auth.user.id),search ? ilike(meetings.name, `%${search}%`) : undefined
       )

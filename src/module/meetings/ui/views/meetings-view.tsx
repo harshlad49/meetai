@@ -1,14 +1,23 @@
 "use client"
+import { EmptyState } from "@/components/empty-state";
 import { ErrorState } from "@/components/error-state";
 import { LoadingState } from "@/components/loading-state";
+import { columns } from "@/module/meetings/ui/components/columns";
+import { DataTable } from "../components/data-table";
 import { useTRPC } from "@/trpc/client";
 import {  useSuspenseQuery } from "@tanstack/react-query";
 export const MeetingsView = () => {
    const trpc = useTRPC();
-   const { data } = useSuspenseQuery(trpc.meetings.getMany.queryOptions({}))
+   const { data } = useSuspenseQuery(trpc.meetings.getMany.queryOptions({}));
   return (
-    <div className="overflow-x-scroll ">
-     {JSON.stringify(data)}
+    <div className="flex-1 pb-4 md:px-8 flex-col gap-y-4">
+    <DataTable data={data.items} columns={columns}/>
+     {data.items.length === 0 && (
+            <EmptyState
+            title="Create Your first meeting"
+            description="Schedule a meeting to meeting to connect with others. Each meeting lets you collabrate, share ideas, and interact with participants in real time."
+            />
+            )}
       </div>
   );
 }

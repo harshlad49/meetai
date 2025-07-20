@@ -8,6 +8,7 @@ interface NewMeetingDialogProps {
 
 export const NewMeetingDialog = ({ open, onOpenChange }: NewMeetingDialogProps) => {
   const router = useRouter();
+ 
   return (
     <ResponsiveDialog
     title="New Agent" 
