@@ -8,6 +8,7 @@ import {
   CommandEmpty,
 } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
+import { ChevronsUpDown } from "lucide-react";
 
 interface Props {
   options: Array<{
@@ -50,6 +51,7 @@ const handleOpenChange = (open: boolean) =>{
         )}
       >
         <div>{selectedOption?.children ?? placeholder}</div>
+        <ChevronsUpDown />
       </Button>
 
       <CommandResposiveDialog
