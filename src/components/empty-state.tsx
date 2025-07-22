@@ -3,9 +3,10 @@ import Image from "next/image";
 interface Props {
   title: string;
   description: string;
+  image?: string;
 }
 
-export const EmptyState = ({ title, description }: Props) => {
+export const EmptyState = ({ title, description, image="/empty.svg" }: Props) => {
   return (
     <div className="flex flex-col items-center justify-center">
       
