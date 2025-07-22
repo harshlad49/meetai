@@ -14,12 +14,16 @@ interface Props {
 }
 const Page  = async ({searchParams}: Props) => {
        const filters = await loadSearchParams(searchParams);
-       const session = await auth.api.getSession({
-        headers: await headers(),
-       })
-       if (!session) {
-        redirect("/sign-in");
-       }
+try {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  if (!session) redirect("/sign-in");
+} catch (err) {
+  console.error("Auth session fetch failed:", err);
+  throw err;
+}
+
   const queryClient = getQueryClient();
   void queryClient.prefetchQuery(
     trpc.meetings.getMany.queryOptions({
