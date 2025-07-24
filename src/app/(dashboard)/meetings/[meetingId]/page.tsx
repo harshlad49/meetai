@@ -36,5 +36,4 @@ const Page = async ({params}: Props) =>{
     </HydrationBoundary>
   )
 }
-
 export default Page;
