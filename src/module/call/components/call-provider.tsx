@@ -2,7 +2,6 @@
 import { LoaderIcon } from "lucide-react"
 import { authClient } from "@/lib/auth-client"
 import { generateAvatarUri } from "@/lib/avatar"
-import { Ca } from "zod/v4/locales";
 import { CallConnect } from "./call-connect";
 
 interface Props {
