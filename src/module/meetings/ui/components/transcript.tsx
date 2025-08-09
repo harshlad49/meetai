@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {format} from "date-fns";
 import { SearchIcon } from "lucide-react";
-import { Highlighter } from "react-highlight-words";
+import  Highlighter from "react-highlight-words";
 import {useQuery} from "@tanstack/react-query";
 import { useTRPC } from "@/trpc/client";
 import { Input } from "@/components/ui/input";
@@ -11,7 +11,7 @@ import { generateAvatarUri } from "@/lib/avatar";
 
 
 interface Props {
-  meetingsId: string
+  meetingId: string
 }
 
 export const Transcript = ({meetingId}: Props) => {
@@ -39,7 +39,7 @@ return (
         <div className="flex flex-col gap-y-4">
           {filteredData.map((item) => {
             return(
-              <div key={item.state_ts}
+              <div key={item.start_ts}
                className="felx flex-col gap-y-2 hover:bg-muted p-4 rounded-md border">
                 <div className="flex gap-x-2 items-center">
                   <Avatar className="size-6">

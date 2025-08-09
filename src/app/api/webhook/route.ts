@@ -15,7 +15,7 @@ import { db } from "@/db"
 import {agents, meetings} from "@/db/schema"
 import { streamVideo } from "@/lib/stream-video"
 import { NextRequest, NextResponse } from "next/server"
-import { inngest } from "@/app/inngest/clien"
+import { inngest } from "@/inngest/clien"
 import { streamChat } from "@/lib/stream-chat"
 
 const openaiClient = new OpenAI({apiKey: process.env.OPENAI_API_KEY!});

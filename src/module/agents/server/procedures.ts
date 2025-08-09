@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
-import { agents } from "@/db/schema";
+import { agents, meetings } from "@/db/schema";
 // import { TRPCError } from "@trpc/server";
 import { DEFAULT_PAGE,DEFAULT_PAGE_SIZE,MAX_PAGE_SIZE, MIN_PAGE_SIZE } from "@/constants";
 import { agentsInsertSchema, agentsUpdateSchema } from "@/app/(dashboard)/agents/schemas";
@@ -50,8 +50,8 @@ getOne: protectedProcedure
   .query(async ({ input, ctx }) => {
     const [existingAgent] = await db
       .select({
-        meetingCount:  sql<number>`5`,
-        ...getTableColumns(agents)
+        ...getTableColumns(agents),
+       meetingCount: db.$count(meetings, eq(agents.id, meetings.agentId))
       })
       .from(agents)
       .where(

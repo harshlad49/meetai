@@ -11,7 +11,6 @@ import { meetingsInsertSchema, meetingsUpdateSchema } from "./schemas";
 import { MeetingStatus, StreamTranscripItem } from "../types";
 import { streamVideo } from "@/lib/stream-video";
 import { generateAvatarUri } from "@/lib/avatar";
-import { text } from "stream/consumers";
 import JSONL from "jsonl-parse-stringify";
 import { streamChat } from "@/lib/stream-chat";
 

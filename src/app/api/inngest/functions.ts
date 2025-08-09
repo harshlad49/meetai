@@ -1,4 +1,4 @@
-import {inngest} from "../../inngest/clien"
+import {inngest} from "../../../inngest/clien"
 import JSONL from 'jsonl-parse-stringify'
 import {StreamTranscripItem} from "@/module/meetings/types"
 import { db } from "@/db";

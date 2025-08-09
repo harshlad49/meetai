@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { formatDuration } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { ChatProvider } from "./chat-provider";
+import { Transcript } from "./transcript";
 
 interface Props {
   data: MeetingGetOne;

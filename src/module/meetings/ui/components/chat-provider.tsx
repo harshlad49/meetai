@@ -3,7 +3,6 @@
 import { authClient } from "@/lib/auth-client";
 
 import { LoadingState } from "@/components/loading-state";
-import { da } from "date-fns/locale";
 import { ChatUI } from "./chat-ui";
 
 interface Props {
